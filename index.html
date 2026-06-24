@@ -101,6 +101,21 @@
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--text); }
+    .nav-hamburger {
+      display: none;
+      flex-direction: column; justify-content: center; gap: 5px;
+      background: none; border: none; cursor: pointer;
+      padding: 0.25rem; width: 2rem; height: 2rem;
+    }
+    .nav-hamburger span {
+      display: block; width: 22px; height: 1px;
+      background: var(--text-secondary);
+      transition: background 0.2s, transform 0.25s, opacity 0.25s;
+    }
+    .nav-hamburger:hover span { background: var(--text); }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
     /* HERO */
     .hero {
@@ -285,12 +300,9 @@
       gap: 6rem; align-items: center;
     }
     .founder-visual { position: relative; }
-    .founder-frame {
-      width: 100%; aspect-ratio: 3/4;
-      background: var(--bg-card); border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-display); font-style: italic;
-      color: var(--text-secondary); font-size: 0.875rem;
+    .founder-photo {
+      width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block;
+      border: 1px solid var(--border);
     }
     .founder-accent-box {
       position: absolute; bottom: -1.5rem; right: -1.5rem;
@@ -399,10 +411,24 @@
       .stat-item:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
       .pricing-grid { grid-template-columns: 1fr; max-width: 480px; }
       .founder-inner { grid-template-columns: 1fr; gap: 3rem; }
-      .founder-visual { display: none; }
+      .founder-visual { max-width: 320px; margin: 0 auto; }
     }
     @media (max-width: 720px) {
-      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        position: fixed; top: 0; left: 0; right: 0;
+        background: rgba(13,12,10,0.97);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        flex-direction: column; align-items: center;
+        padding: 6rem 2rem 3rem;
+        gap: 2rem; list-style: none;
+        border-bottom: 1px solid var(--border);
+        z-index: 99;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 1rem; letter-spacing: 0.06em; }
       section { padding: 5rem 0; }
       .why-grid { grid-template-columns: 1fr; }
       .footer-inner { flex-direction: column; gap: 1.25rem; text-align: center; }
@@ -419,6 +445,9 @@
       <li><a href="#pricing">Pricing</a></li>
       <li><a href="#contact">Get in touch</a></li>
     </ul>
+    <button class="nav-hamburger" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
 
   <!-- HERO -->
@@ -489,6 +518,33 @@
     </div>
   </section>
 
+  <!-- HOW IT WORKS -->
+  <section>
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">The process</div>
+        <h2>Simple by design</h2>
+      </div>
+      <div class="services-grid">
+        <div class="service-card reveal reveal-delay-1">
+          <div class="service-number">01</div>
+          <h3>Tell us what you need</h3>
+          <p>Quick conversation about your business, your goals, and where you're stuck. No commitment required.</p>
+        </div>
+        <div class="service-card reveal reveal-delay-2">
+          <div class="service-number">02</div>
+          <h3>We build the plan</h3>
+          <p>Strategy, content direction, or product concept — whatever fits your situation. You see it before we start.</p>
+        </div>
+        <div class="service-card reveal reveal-delay-3">
+          <div class="service-number">03</div>
+          <h3>We execute, you grow</h3>
+          <p>We do the work, you stay in the loop. Results tracked from day one.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- WHY -->
   <section>
     <div class="container">
@@ -541,8 +597,8 @@
     <div class="container">
       <div class="stats-grid">
         <div class="stat-item reveal">
-          <span class="stat-number">10×</span>
-          <span class="stat-label">Faster delivery than traditional agencies</span>
+          <span class="stat-number">70%</span>
+          <span class="stat-label">The share creators keep on every sale</span>
         </div>
         <div class="stat-item reveal reveal-delay-1">
           <span class="stat-number">R0</span>
@@ -565,7 +621,9 @@
     <div class="container">
       <div class="founder-inner">
         <div class="founder-visual reveal">
-          <div class="founder-frame">Aaron Laaks</div>
+          <img src="https://placehold.co/480x640/141210/8a8278?text=Photo+coming"
+               alt="Aaron Laaks, founder of Sonder Studio"
+               class="founder-photo">
           <div class="founder-accent-box"></div>
         </div>
         <div class="founder-content">
@@ -641,8 +699,7 @@
       <div class="cta-links reveal reveal-delay-2">
         <a href="https://wa.me/27661274255?text=Hi%20Aaron%2C%20I%20found%20Sonder%20Studio%20and%20I%27d%20like%20to%20chat%20about%20working%20together." class="btn btn-primary">WhatsApp us</a>
         <a href="mailto:sonderstudiosa@gmail.com?subject=Sonder%20Studio%20%E2%80%94%20Let%27s%20talk" class="btn btn-ghost">Email us</a>
-        <a href="https://calendly.com/aaronlaaks/30min" class="btn btn-ghost">Book a call</a>
-        <a href="https://instagram.com/sonderstudio.sa" target="_blank" rel="noopener" class="btn btn-ghost">Instagram</a>
+<a href="https://instagram.com/sonderstudio.sa" target="_blank" rel="noopener" class="btn btn-ghost">Instagram</a>
       </div>
       <p class="cta-note reveal reveal-delay-3">We typically respond within a few hours.</p>
     </div>
@@ -668,6 +725,21 @@
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 40);
     }, { passive: true });
+
+    const hamburger = document.querySelector('.nav-hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    hamburger.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      hamburger.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', open);
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', false);
+      });
+    });
 
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
